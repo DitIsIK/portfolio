@@ -774,7 +774,6 @@ button,
   .timeline-dot {
     left: -1.3rem;
   }
-}
 
 @media (max-width: 640px) {
   .header-tops {
