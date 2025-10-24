@@ -1,0 +1,21 @@
+{
+  "name": "Yannick Deetman Portfolio",
+  "short_name": "Yannick",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#010e1b",
+  "theme_color": "#12d640",
+  "description": "eerstejaars communicatie student aan de HvA. Houd van strak en gestructureerd werken en dingen die echt werkelijk goed afgemaakt zijn.",
+  "icons": [
+    {
+      "src": "assets/meta/favicon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "assets/meta/og-image.svg",
+      "sizes": "1200x630",
+      "type": "image/svg+xml"
+    }
+  ]
+}
