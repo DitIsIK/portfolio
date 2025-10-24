@@ -873,7 +873,6 @@ html[data-theme="contact"] .scroll-progress__bar {
   .timeline-dot {
     left: -1.3rem;
   }
-}
 
 @media (max-width: 640px) {
   .header-tops {
