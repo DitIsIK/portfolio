@@ -31,11 +31,22 @@
     return container;
   };
 
+  const root = document.documentElement;
+  let currentThemeMode = "dark";
+  let currentSectionToken = "over";
+
+  const syncThemeAttribute = () => {
+    root.setAttribute("data-theme", `${currentThemeMode} ${currentSectionToken}`.trim());
+  };
+
+  syncThemeAttribute();
+
   let moveNavUnderline = () => {};
-  const themeBySection = {
+  const SECTION_TOKENS = {
+    about: "over",
     skills: "skills",
-    experience: "experience",
-    projects: "projects",
+    experience: "ervaring",
+    projects: "projecten",
     contact: "contact"
   };
 
@@ -298,8 +309,8 @@
       const card = document.createElement("article");
       card.className = "project-card";
       card.innerHTML = `
-        <div class="project-card__image">
-          <img src="${project.cover}" alt="Cover voor ${project.title}" loading="lazy" width="960" height="540" />
+        <div class="project-card__image" data-skeleton-container>
+          <img src="${project.cover}" alt="Cover voor ${project.title}" loading="lazy" width="960" height="540" data-skeleton-img decoding="async" />
         </div>
         <div class="project-card__body">
           <header class="project-card__header">
@@ -347,6 +358,39 @@
       card.appendChild(shine);
 
       projectsTarget.appendChild(card);
+    });
+  };
+
+  // === Image skeleton loading ===
+  const initImageSkeletons = () => {
+    const containers = qsa("[data-skeleton-container]");
+    if (!containers.length) {
+      return;
+    }
+
+    containers.forEach((container) => {
+      if (!(container instanceof HTMLElement)) {
+        return;
+      }
+
+      const image = container.querySelector("[data-skeleton-img]");
+      const markLoaded = () => {
+        container.classList.add("loaded");
+        if (image instanceof HTMLElement) {
+          image.classList.add("loaded");
+        }
+      };
+
+      if (image instanceof HTMLImageElement) {
+        if (image.complete && image.naturalWidth > 0) {
+          markLoaded();
+        } else {
+          image.addEventListener("load", markLoaded, { once: true });
+          image.addEventListener("error", markLoaded, { once: true });
+        }
+      } else {
+        markLoaded();
+      }
     });
   };
 
@@ -404,12 +448,11 @@
     }
   };
 
-  const applyThemeForSection = (sectionId) => {
-    const theme = themeBySection[sectionId];
-    if (theme) {
-      document.documentElement.setAttribute("data-theme", theme);
-    } else {
-      document.documentElement.removeAttribute("data-theme");
+  const updateSectionToken = (sectionId) => {
+    const nextToken = SECTION_TOKENS[sectionId] ?? "over";
+    if (nextToken !== currentSectionToken) {
+      currentSectionToken = nextToken;
+      syncThemeAttribute();
     }
   };
 
@@ -434,7 +477,7 @@
           link.removeAttribute("aria-current");
         }
       });
-      applyThemeForSection(targetId);
+      updateSectionToken(targetId);
     };
 
     if (sections.length) {
@@ -492,6 +535,207 @@
         }
       });
     });
+  };
+
+  // === Theme toggle ===
+  const initThemeToggle = () => {
+    if (qs(".theme-toggle")) {
+      return;
+    }
+
+    const navWrapper = qs(".nav-wrapper");
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "theme-toggle";
+    toggle.setAttribute("aria-label", "Schakel kleurthema");
+    toggle.innerHTML = '<span class="sr-only">Schakel thema</span><span aria-hidden="true" class="theme-toggle__icon">☾</span>';
+
+    if (navWrapper) {
+      navWrapper.appendChild(toggle);
+    }
+
+    const storageKey = "yd-theme";
+    const mediaQuery = typeof window.matchMedia === "function" ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+
+    const applyMode = (mode, persist = true) => {
+      const normalized = mode === "light" ? "light" : "dark";
+      currentThemeMode = normalized;
+      syncThemeAttribute();
+      toggle.dataset.mode = normalized;
+      toggle.setAttribute("aria-pressed", normalized === "dark" ? "true" : "false");
+      const icon = qs(".theme-toggle__icon", toggle);
+      if (icon) {
+        icon.textContent = normalized === "dark" ? "☾" : "☀";
+      }
+      const srText = qs(".sr-only", toggle);
+      const label = normalized === "dark" ? "Schakel naar licht thema" : "Schakel naar donker thema";
+      if (srText) {
+        srText.textContent = label;
+      }
+      toggle.setAttribute("title", label);
+      if (persist) {
+        try {
+          window.localStorage.setItem(storageKey, normalized);
+        } catch (error) {
+          // ignore storage errors
+        }
+      }
+    };
+
+    let storedPreference = null;
+    try {
+      storedPreference = window.localStorage.getItem(storageKey);
+    } catch (error) {
+      storedPreference = null;
+    }
+
+    if (storedPreference === "light" || storedPreference === "dark") {
+      applyMode(storedPreference, false);
+    } else {
+      const prefersDark = mediaQuery?.matches ?? true;
+      applyMode(prefersDark ? "dark" : "light", false);
+    }
+
+    if (mediaQuery && typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", (event) => {
+        let saved = null;
+        try {
+          saved = window.localStorage.getItem(storageKey);
+        } catch (error) {
+          saved = null;
+        }
+        if (saved !== "light" && saved !== "dark") {
+          applyMode(event.matches ? "dark" : "light", false);
+        }
+      });
+    }
+
+    toggle.addEventListener("click", () => {
+      applyMode(currentThemeMode === "dark" ? "light" : "dark");
+    });
+  };
+
+  // === Back to top button ===
+  const initBackToTop = () => {
+    if (qs(".back-to-top")) {
+      return;
+    }
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "back-to-top";
+    button.setAttribute("aria-label", "Terug naar boven");
+    button.textContent = "↑";
+    document.body.appendChild(button);
+
+    let threshold = window.innerHeight * 0.4;
+    let visible = false;
+    let ticking = false;
+
+    const update = () => {
+      const shouldShow = window.scrollY > threshold;
+      if (shouldShow !== visible) {
+        visible = shouldShow;
+        button.classList.toggle("is-visible", visible);
+      }
+      ticking = false;
+    };
+
+    const requestTick = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", requestTick, { passive: true });
+    window.addEventListener("resize", () => {
+      threshold = window.innerHeight * 0.4;
+      update();
+    });
+
+    button.addEventListener("click", () => {
+      if (prefersReducedMotion.matches) {
+        window.scrollTo(0, 0);
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+
+    update();
+  };
+
+  // === Magnetic buttons ===
+  const initMagneticButtons = () => {
+    if (prefersReducedMotion.matches) {
+      return;
+    }
+
+    if (typeof window.matchMedia === "function" && !window.matchMedia("(hover: hover)").matches) {
+      return;
+    }
+
+    const buttons = qsa(".button");
+    if (!buttons.length) {
+      return;
+    }
+
+    const strength = 0.1;
+
+    const reset = (button) => {
+      button.style.setProperty("--magnetic-x", "0px");
+      button.style.setProperty("--magnetic-y", "0px");
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("pointermove", (event) => {
+        const rect = button.getBoundingClientRect();
+        const offsetX = (event.clientX - rect.left - rect.width / 2) * strength;
+        const offsetY = (event.clientY - rect.top - rect.height / 2) * strength;
+        button.style.setProperty("--magnetic-x", `${offsetX.toFixed(2)}px`);
+        button.style.setProperty("--magnetic-y", `${offsetY.toFixed(2)}px`);
+      });
+
+      const resetHandler = () => reset(button);
+      button.addEventListener("pointerleave", resetHandler);
+      button.addEventListener("pointercancel", resetHandler);
+      button.addEventListener("pointerup", resetHandler);
+    });
+  };
+
+  // === Intro animation ===
+  const playIntroAnimation = () => {
+    if (prefersReducedMotion.matches) {
+      return;
+    }
+
+    const navBar = qs(".nav-bar");
+    if (navBar) {
+      navBar.classList.add("nav-bar--pre");
+      requestAnimationFrame(() => {
+        navBar.classList.add("is-intro");
+      });
+      navBar.addEventListener(
+        "animationend",
+        () => {
+          navBar.classList.remove("nav-bar--pre");
+          navBar.classList.remove("is-intro");
+        },
+        { once: true }
+      );
+    }
+
+    const progressBar = qs(".scroll-progress__bar");
+    if (progressBar) {
+      progressBar.classList.add("is-intro");
+      progressBar.addEventListener(
+        "animationend",
+        () => {
+          progressBar.classList.remove("is-intro");
+        },
+        { once: true }
+      );
+    }
   };
 
   // reveal-on-scroll animation
@@ -622,6 +866,10 @@
       return;
     }
 
+    if (typeof window.matchMedia === "function" && !window.matchMedia("(hover: hover)").matches) {
+      return;
+    }
+
     const cards = qsa(".project-card");
     if (!cards.length) {
       return;
@@ -739,14 +987,19 @@
     populateProjects();
     populateContact();
     populateFooter();
+    initThemeToggle();
     initNavUnderline();
     initScrollSpy();
     initMobileNav();
     enableSmoothScroll();
     initSectionReveal();
     initScrollProgress();
+    initImageSkeletons();
     initProjectCardTilt();
+    initMagneticButtons();
+    initBackToTop();
     initParallax();
+    playIntroAnimation();
   };
 
   if (document.readyState !== "loading") {
