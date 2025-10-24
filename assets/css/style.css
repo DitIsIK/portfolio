@@ -15,7 +15,11 @@
   --radius-lg: 24px;
   --radius-md: 16px;
   --radius-sm: 10px;
+}
+
+html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-height);
 }
 
 * {
@@ -133,6 +137,7 @@ main {
 .nav-menu {
   display: block;
   z-index: 1000;
+  position: relative;
 }
 
 .brand {
@@ -166,27 +171,10 @@ main {
   position: relative;
 }
 
-.nav-menu a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.2rem;
-  height: 2px;
-  background: transparent;
-  transition: background 0.2s ease;
-}
-
 .nav-menu a.is-active,
 .nav-menu a:focus-visible,
 .nav-menu a:hover {
   font-weight: 700;
-}
-
-.nav-menu a.is-active::after,
-.nav-menu a:focus-visible::after,
-.nav-menu a:hover::after {
-  background: var(--color-accent);
 }
 
 .mobile-nav-toggle {
@@ -222,8 +210,8 @@ main {
   width: 100%;
   transform-origin: left center;
   transform: scaleX(0);
-  background: var(--color-accent);
-  transition: transform 0.2s ease-out;
+  background-color: var(--color-accent);
+  transition: transform 0.2s ease-out, background-color 0.25s ease;
 }
 
 .hero {
@@ -685,19 +673,29 @@ button,
 
 .reveal {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(10px);
 }
 
 .reveal.show {
   opacity: 1;
-  transform: translateY(0);
-  animation: fadeUp 0.6s ease both;
+  transform: none;
+}
+
+.reveal [data-stagger] {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.reveal.show [data-stagger] {
+  opacity: 1;
+  animation: fadeUp 0.48s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--stagger-delay, 0s);
 }
 
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -707,6 +705,107 @@ button,
 
 .snap-container {
   scroll-snap-type: y proximity;
+}
+
+.snap-container > .section {
+  scroll-snap-align: start;
+}
+
+.nav-underline {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-origin: left center;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.nav-menu:hover .nav-underline,
+.nav-menu:focus-within .nav-underline,
+.nav-menu .nav-underline.is-visible {
+  opacity: 1;
+}
+
+html[data-theme="skills"] .scroll-progress__bar {
+  background-color: #38bdf8;
+}
+
+html[data-theme="experience"] .scroll-progress__bar {
+  background-color: #34d399;
+}
+
+html[data-theme="projects"] .scroll-progress__bar {
+  background-color: #facc15;
+}
+
+html[data-theme="contact"] .scroll-progress__bar {
+  background-color: #f472b6;
+}
+
+.project-card {
+  position: relative;
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transform: translateY(0);
+}
+
+.project-card:hover,
+.project-card:focus-within {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  transform: translateY(-2px);
+}
+
+.project-card__image,
+.project-card__body {
+  position: relative;
+  z-index: 1;
+}
+
+.card__shine {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.35), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  z-index: 0;
+}
+
+.project-card:hover .card__shine,
+.project-card:focus-within .card__shine {
+  opacity: 1;
+}
+
+.hero__title .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.hero__title .word.is-visible {
+  animation: fadeUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation-delay: var(--word-delay, 0s);
+}
+
+.parallax {
+  will-change: transform;
+  transition: transform 0.2s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 @media (max-width: 992px) {
