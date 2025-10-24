@@ -83,9 +83,12 @@
     setMeta('meta[property="og:description"]', "content", meta.description);
     setMeta('meta[property="og:url"]', "content", meta.url);
     setMeta('meta[property="og:image"]', "content", meta.image);
+    setMeta('meta[property="og:image:type"]', "content", meta.imageType);
+    setMeta('meta[property="og:site_name"]', "content", siteData.owner?.name ?? "");
     setMeta('meta[name="twitter:title"]', "content", meta.title);
     setMeta('meta[name="twitter:description"]', "content", meta.description);
     setMeta('meta[name="twitter:image"]', "content", meta.image);
+    setMeta('meta[name="twitter:card"]', "content", meta.card);
     setMeta('link[rel="canonical"]', "href", meta.url);
   };
 
@@ -124,10 +127,16 @@
     const projectCta = qs('[data-cta="projects"]');
     if (projectCta) {
       projectCta.setAttribute("href", hero.ctas.projects);
+      if (hero.ctaLabels?.projects) {
+        projectCta.textContent = hero.ctaLabels.projects;
+      }
     }
     const cvCta = qs('[data-cta="cv"]');
     if (cvCta) {
       cvCta.setAttribute("href", hero.ctas.cv);
+      if (hero.ctaLabels?.cv) {
+        cvCta.textContent = hero.ctaLabels.cv;
+      }
     }
   };
 
@@ -162,9 +171,25 @@
 
   const populateSkills = () => {
     const { skills } = siteData;
+    const primaryHeading = qs('[data-skill="primary-label"]');
+    if (primaryHeading) {
+      primaryHeading.textContent = skills.primaryLabel;
+    }
+    const primarySubtitle = qs('[data-skill="primary-note"]');
+    if (primarySubtitle) {
+      primarySubtitle.textContent = skills.primaryNote;
+    }
     const primaryTarget = qs('[data-site="skills-primary"]');
     if (primaryTarget) {
       primaryTarget.appendChild(createBadgeGroup(skills.primary));
+    }
+    const secondaryHeading = qs('[data-skill="secondary-label"]');
+    if (secondaryHeading) {
+      secondaryHeading.textContent = skills.secondaryLabel;
+    }
+    const secondarySubtitle = qs('[data-skill="secondary-note"]');
+    if (secondarySubtitle) {
+      secondarySubtitle.textContent = skills.secondaryNote;
     }
     const secondaryTarget = qs('[data-site="skills-secondary"]');
     if (secondaryTarget) {
@@ -173,34 +198,39 @@
   };
 
   const populateExperience = () => {
-    const { experience } = siteData;
-    const educationTarget = qs('[data-site="education"]');
-    if (educationTarget) {
-      experience.education.forEach((item) => {
-        const card = document.createElement("article");
-        card.className = "info-card";
-        card.innerHTML = `
-          <h3>${item.title}</h3>
-          <p class="info-card__meta">${item.program} · <span>${item.period}</span></p>
-        `;
-        card.appendChild(formatList(item.details, "info-card__list"));
-        educationTarget.appendChild(card);
-      });
+    const timelineTarget = qs('[data-timeline]');
+    if (!timelineTarget) {
+      return;
     }
 
-    const rolesTarget = qs('[data-site="experience"]');
-    if (rolesTarget) {
-      experience.roles.forEach((item) => {
-        const card = document.createElement("article");
-        card.className = "info-card";
-        card.innerHTML = `
-          <h3>${item.title}</h3>
-          <p class="info-card__meta">${item.role} · <span>${item.period}</span></p>
-        `;
-        card.appendChild(formatList(item.details, "info-card__list"));
-        rolesTarget.appendChild(card);
-      });
-    }
+    const items = siteData.experience?.timeline ?? [];
+    items.forEach((item) => {
+      const entry = document.createElement("article");
+      entry.className = "timeline-item";
+      if (item.future) {
+        entry.classList.add("timeline-item--future");
+      }
+
+      const dot = document.createElement("span");
+      dot.className = "timeline-dot";
+      dot.setAttribute("aria-hidden", "true");
+      entry.appendChild(dot);
+
+      const card = document.createElement("div");
+      card.className = "timeline-card";
+      card.innerHTML = `
+        <h3>${item.title}</h3>
+        <p class="timeline-card__meta">${item.period}</p>
+        <p class="timeline-card__body">${item.body}</p>
+      `;
+
+      if (Array.isArray(item.bullets) && item.bullets.length) {
+        card.appendChild(formatList(item.bullets, "timeline-card__list"));
+      }
+
+      entry.appendChild(card);
+      timelineTarget.appendChild(entry);
+    });
   };
 
   const populateProjects = () => {
@@ -262,6 +292,7 @@
 
   const populateContact = () => {
     const { owner, socials } = siteData;
+    const findSocial = (label) => socials.find((social) => social.label === label);
     const emailTarget = qs('[data-contact="email"]');
     if (emailTarget) {
       emailTarget.href = `mailto:${owner.email}`;
@@ -269,13 +300,15 @@
     }
     const githubTarget = qs('[data-contact="github"]');
     if (githubTarget) {
-      githubTarget.href = owner.github;
-      githubTarget.textContent = "GitHub";
+      const github = findSocial("GitHub");
+      githubTarget.href = github?.url ?? owner.github;
+      githubTarget.textContent = github?.label ?? "GitHub";
     }
     const linkedinTarget = qs('[data-contact="linkedin"]');
     if (linkedinTarget) {
-      linkedinTarget.href = owner.linkedin;
-      linkedinTarget.textContent = "LinkedIn";
+      const linkedin = findSocial("LinkedIn");
+      linkedinTarget.href = linkedin?.url ?? owner.linkedin;
+      linkedinTarget.textContent = linkedin?.label ?? "LinkedIn";
     }
     const socialList = qs('[data-contact="socials"]');
     if (socialList) {
@@ -312,10 +345,13 @@
   };
 
   const initScrollSpy = () => {
-    const navLinks = qsa('nav a[href^="#"]');
+    const navLinks = qsa('.nav-menu a[href^="#"]');
     if (!navLinks.length) {
       return;
     }
+
+    navLinks[0].classList.add("is-active");
+    navLinks[0].setAttribute("aria-current", "true");
 
     const sections = navLinks
       .map((link) => qs(link.getAttribute("href")))
@@ -324,18 +360,21 @@
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.intersectionRatio >= 0.15) {
             navLinks.forEach((link) => {
-              link.parentElement?.classList.toggle(
-                "active",
-                link.getAttribute("href") === `#${entry.target.id}`
-              );
+              const isActive = link.getAttribute("href") === `#${entry.target.id}`;
+              link.classList.toggle("is-active", isActive);
+              if (isActive) {
+                link.setAttribute("aria-current", "true");
+              } else {
+                link.removeAttribute("aria-current");
+              }
             });
           }
         });
       },
       {
-        rootMargin: "-50% 0px -45% 0px"
+        threshold: [0.15, 0.6]
       }
     );
 
@@ -371,12 +410,65 @@
           const section = qs(targetId);
           if (section) {
             event.preventDefault();
-            section.scrollIntoView({ behavior: "smooth" });
+            section.scrollIntoView({ behavior: "smooth", block: "start" });
             section.focus({ preventScroll: true });
           }
         }
       });
     });
+  };
+
+  // reveal-on-scroll animation
+  const initSectionReveal = () => {
+    const revealEls = qsa(".reveal");
+    if (!revealEls.length) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.intersectionRatio >= 0.15) {
+            entry.target.classList.add("show");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.15
+      }
+    );
+
+    revealEls.forEach((el) => observer.observe(el));
+  };
+
+  // scroll progress indicator
+  const initScrollProgress = () => {
+    const bar = qs(".scroll-progress__bar");
+    if (!bar) {
+      return;
+    }
+
+    let ticking = false;
+
+    const update = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      const ratio = Math.min(Math.max(scrollTop / docHeight, 0), 1);
+      bar.style.transform = `scaleX(${ratio})`;
+      ticking = false;
+    };
+
+    const requestTick = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", requestTick, { passive: true });
+    window.addEventListener("resize", requestTick);
+    update();
   };
 
   const init = () => {
@@ -391,6 +483,8 @@
     initScrollSpy();
     initMobileNav();
     enableSmoothScroll();
+    initSectionReveal();
+    initScrollProgress();
   };
 
   if (document.readyState !== "loading") {

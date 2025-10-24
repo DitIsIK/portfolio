@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="assets/meta/favicon.svg">
   <link rel="manifest" href="site.webmanifest">
-  <title>Yannick Deetman — Communicatiestudent (HvA), vibecoding front end, fotografie</title>
-  <meta name="description" content="eerstejaars communicatie student aan de HvA. Houd van strak en gestructureerd werken en dingen die echt werkelijk goed afgemaakt zijn.">
-  <meta property="og:title" content="Yannick Deetman — Communicatiestudent (HvA), vibecoding front end, fotografie">
-  <meta property="og:description" content="eerstejaars communicatie student aan de HvA. Houd van strak en gestructureerd werken en dingen die echt werkelijk goed afgemaakt zijn.">
-  <meta property="og:url" content="https://yannickdeetman.com/">
-  <meta property="og:image" content="https://yannickdeetman.com/assets/meta/og-image.svg">
-  <meta property="og:image:type" content="image/svg+xml">
+  <title></title>
+  <meta name="description" content="">
+  <meta property="og:title" content="">
+  <meta property="og:description" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+  <meta property="og:image:type" content="">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Yannick Deetman">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Yannick Deetman — Communicatiestudent (HvA), vibecoding front end, fotografie">
-  <meta name="twitter:description" content="eerstejaars communicatie student aan de HvA. Houd van strak en gestructureerd werken en dingen die echt werkelijk goed afgemaakt zijn.">
-  <meta name="twitter:image" content="https://yannickdeetman.com/assets/meta/og-image.svg">
-  <link rel="canonical" href="https://yannickdeetman.com/">
+  <meta property="og:site_name" content="">
+  <meta name="twitter:card" content="">
+  <meta name="twitter:title" content="">
+  <meta name="twitter:description" content="">
+  <meta name="twitter:image" content="">
+  <link rel="canonical" href="">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Raleway:400,500,600,700|Poppins:400,500,600,700&display=swap" rel="stylesheet">
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -27,15 +27,15 @@
 <body>
   <a class="skip-link" href="#main">Direct naar de inhoud</a>
   <header id="header" class="header-tops">
-    <div class="container">
-      <div class="nav-wrapper">
+    <div class="nav-bar" role="navigation" aria-label="Hoofdnavigatie">
+      <div class="container nav-wrapper">
         <span class="brand" aria-hidden="true">YD</span>
         <button class="mobile-nav-toggle" type="button" aria-label="Toon navigatie" aria-expanded="false" aria-controls="site-nav">
           <span class="bx bx-menu" aria-hidden="true"></span>
         </button>
         <nav id="site-nav" class="nav-menu" aria-label="Hoofdnavigatie">
           <ul>
-            <li class="active"><a href="#about">Over</a></li>
+            <li><a href="#about">Over</a></li>
             <li><a href="#skills">Skills</a></li>
             <li><a href="#experience">Ervaring</a></li>
             <li><a href="#projects">Projecten</a></li>
@@ -43,33 +43,36 @@
           </ul>
         </nav>
       </div>
-      <div class="hero">
-        <div class="hero__content">
-          <h1 class="hero__title" data-site="name">Yannick Deetman</h1>
-          <p class="hero__typed" aria-live="polite">
-            <span class="sr-only" data-site="tagline"></span>
-            <span class="typing" aria-hidden="true"></span>
-          </p>
-          <p class="hero__summary" data-site="hero-summary"></p>
-          <div class="hero__meta">
-            <span><i class="bx bx-map" aria-hidden="true"></i><span data-site="location"></span></span>
-            <a class="hero__email" data-site="email" href="mailto:yannick.deetman@icloud.com"></a>
-          </div>
-          <div class="hero__actions">
-            <a class="button" data-cta="projects" href="#projects">Bekijk projecten</a>
-            <a class="button button--ghost" data-cta="cv" href="assets/cv/Yannick_Deetman_CV.pdf">CV downloaden</a>
-          </div>
-          <div class="hero__socials" data-site="socials"></div>
-        </div>
-        <figure class="hero__media">
-          <img src="assets/img/profile.svg" alt="Illustratie van Yannick Deetman" width="280" height="280" loading="lazy">
-        </figure>
+      <div class="scroll-progress" aria-hidden="true">
+        <span class="scroll-progress__bar"></span>
       </div>
+    </div>
+    <div class="container hero">
+      <div class="hero__content">
+        <h1 class="hero__title" data-site="name">Yannick Deetman</h1>
+        <p class="hero__typed" aria-live="polite">
+          <span class="sr-only" data-site="tagline"></span>
+          <span class="typing" aria-hidden="true"></span>
+        </p>
+        <p class="hero__summary" data-site="hero-summary"></p>
+        <div class="hero__meta">
+          <span><i class="bx bx-map" aria-hidden="true"></i><span data-site="location"></span></span>
+          <a class="hero__email" data-site="email" href="#"></a>
+        </div>
+        <div class="hero__actions">
+          <a class="button" data-cta="projects" href="#"></a>
+          <a class="button button--ghost" data-cta="cv" href="#"></a>
+        </div>
+        <div class="hero__socials" data-site="socials"></div>
+      </div>
+      <figure class="hero__media">
+        <img src="assets/img/profile.svg" alt="Illustratie van Yannick Deetman" width="280" height="280" loading="lazy">
+      </figure>
     </div>
   </header>
 
-  <main id="main" tabindex="-1">
-    <section id="about" class="section" tabindex="-1">
+  <main id="main" class="snap-container" tabindex="-1">
+    <section id="about" class="section reveal" tabindex="-1">
       <div class="container">
         <header class="section-header">
           <p class="section-kicker">Intro</p>
@@ -86,7 +89,7 @@
               </div>
               <div>
                 <dt>Email</dt>
-                <dd><a data-site="email" href="mailto:yannick.deetman@icloud.com">yannick.deetman@icloud.com</a></dd>
+                <dd><a data-site="email" href="#"></a></dd>
               </div>
             </dl>
             <div class="about-focus">
@@ -102,7 +105,7 @@
       </div>
     </section>
 
-    <section id="skills" class="section" tabindex="-1">
+    <section id="skills" class="section reveal" tabindex="-1">
       <div class="container">
         <header class="section-header">
           <p class="section-kicker">Toolkit</p>
@@ -110,37 +113,30 @@
         </header>
         <div class="skills-grid">
           <article class="skills-card">
-            <h3>Primary</h3>
+            <h3 data-skill="primary-label"></h3>
+            <p class="skills-subtitle" data-skill="primary-note"></p>
             <div data-site="skills-primary"></div>
           </article>
           <article class="skills-card">
-            <h3>Secondary</h3>
+            <h3 data-skill="secondary-label"></h3>
+            <p class="skills-subtitle" data-skill="secondary-note"></p>
             <div data-site="skills-secondary"></div>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="experience" class="section" tabindex="-1">
+    <section id="experience" class="section reveal" tabindex="-1">
       <div class="container">
         <header class="section-header">
           <p class="section-kicker">Groei</p>
-          <h2>Education &amp; Experience</h2>
+          <h2>Ervaring</h2>
         </header>
-        <div class="experience-grid">
-          <div>
-            <h3 class="section-subheading">Opleiding</h3>
-            <div data-site="education" class="info-card-stack"></div>
-          </div>
-          <div>
-            <h3 class="section-subheading">Stage &amp; praktijk</h3>
-            <div data-site="experience" class="info-card-stack"></div>
-          </div>
-        </div>
+        <div class="timeline" data-timeline></div>
       </div>
     </section>
 
-    <section id="projects" class="section" tabindex="-1">
+    <section id="projects" class="section reveal" tabindex="-1">
       <div class="container">
         <header class="section-header">
           <p class="section-kicker">Cases</p>
@@ -150,7 +146,7 @@
       </div>
     </section>
 
-    <section id="contact" class="section" tabindex="-1">
+    <section id="contact" class="section reveal" tabindex="-1">
       <div class="container">
         <header class="section-header">
           <p class="section-kicker">Hallo</p>
@@ -160,9 +156,9 @@
           <article class="contact-card">
             <h3>Rechtstreeks</h3>
             <ul class="contact-list">
-              <li><a data-contact="email" href="mailto:yannick.deetman@icloud.com">yannick.deetman@icloud.com</a></li>
-              <li><a data-contact="linkedin" href="https://share.google/hWghw0HQni8dMEci6">LinkedIn</a></li>
-              <li><a data-contact="github" href="https://github.com/DitIsIK">GitHub</a></li>
+              <li><a data-contact="email" href="#"></a></li>
+              <li><a data-contact="linkedin" href="#"></a></li>
+              <li><a data-contact="github" href="#"></a></li>
             </ul>
           </article>
           <article class="contact-card">

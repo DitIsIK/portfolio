@@ -3,7 +3,9 @@ const siteData = {
     title: "Yannick Deetman — Communicatiestudent (HvA), vibecoding front end, fotografie",
     description: "eerstejaars communicatie student aan de HvA. Houd van strak en gestructureerd werken en dingen die echt werkelijk goed afgemaakt zijn.",
     url: "https://yannickdeetman.com/",
-    image: "https://yannickdeetman.com/assets/meta/og-image.svg"
+    image: "assets/meta/og-image.svg",
+    imageType: "image/svg+xml",
+    card: "summary_large_image"
   },
   owner: {
     name: "Yannick Deetman",
@@ -23,10 +25,15 @@ const siteData = {
     ctas: {
       projects: "#projects",
       cv: "assets/cv/Yannick_Deetman_CV.pdf"
+    },
+    ctaLabels: {
+      projects: "Bekijk projecten",
+      cv: "CV downloaden"
     }
   },
   bio: {
-    short: "eerstejaars communicatie student aan de HvA. Houd van strak en gestructureerd werken en dingen die echt werkelijk goed afgemaakt zijn.",
+    short:
+      "Ik ben Yannick, eerstejaars Communicatiestudent aan de HvA. Ik hou van strak en gestructureerd werken en dingen die écht af zijn. Overdag in de productie bij Sympafix; ’s avonds bouw ik simpele webapps die gewoon werken.",
     long: "(nog een placeholder)"
   },
   currentFocus: [
@@ -35,6 +42,12 @@ const siteData = {
     "Fotografie portfolio ordenen"
   ],
   skills: {
+    primaryLabel: "Nu aan het verdiepen bij HvA Communicatie.",
+    primaryNote:
+      "Momenteel aan het leren en verbeteren bij HvA Communicatie: schrijven, onderzoek, visuele communicatie en front-end basics.",
+    secondaryLabel: "Bouwt simpele webapps (Netlify-ready).",
+    secondaryNote:
+      "Kan eenvoudige webapplicaties bouwen (HTML/CSS/JS + basis React/Next.js) en shippen op Netlify.",
     primary: [
       "HTML",
       "CSS/Tailwind",
@@ -52,26 +65,25 @@ const siteData = {
     ]
   },
   experience: {
-    education: [
+    timeline: [
       {
-        title: "Hogeschool van Amsterdam",
-        program: "Communicatie",
-        period: "2024 – heden",
-        details: [
-          "Propedeuse in zicht, focus op merkcommunicatie",
-          "Projectgroepen rondom campagnes en storytelling"
-        ]
-      }
-    ],
-    roles: [
+        title: "Sympafix — Productie & Simple Apps",
+        period: "2024 — heden",
+        body:
+          "Werk in de productie en bouw interne tools voor Sympafix. Focus op nette UI’s, snelle deploys en praktische oplossingen.",
+        bullets: [
+          "Spijkerwijzer: compatibiliteitstool",
+          "Volume Calculator: Excel-logica naar web"
+        ],
+        future: false
+      },
       {
-        title: "Stageplek",
-        role: "Front-end & content stagiair (in aanvraag)",
-        period: "2025",
-        details: [
-          "Open voor teams die digitale campagnes en productervaringen bouwen",
-          "Focus op front-end, UX writing en communicatieonderzoek"
-        ]
+        title: "Toekomstige rol",
+        period: "2025 — …",
+        body:
+          "Ruimte voor stage of part-time werk in communicatie, front-end of content.",
+        bullets: [],
+        future: true
       }
     ]
   },

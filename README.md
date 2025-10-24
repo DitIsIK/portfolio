@@ -24,6 +24,7 @@ Open vervolgens `http://localhost:8000` in je browser.
 - **Eigenaar & socials:** pas `assets/js/site-data.js` aan. Alle teksten, links, projecten en meta-tags komen uit deze configuratie.
 - **Projectcovers & meta-afbeelding:** vind je in `assets/projects/` en `assets/meta/`. De repo gebruikt SVG placeholders; vervang ze door eigen SVG’s (of pas de paden aan in `site-data.js`) om binaire bestanden te vermijden.
 - **CV:** bewaar het actuele cv in `assets/cv/Yannick_Deetman_CV.pdf`.
+- **Deploy:** Publish directory = . | Build command = (none).
 
 ## Licentie
 
