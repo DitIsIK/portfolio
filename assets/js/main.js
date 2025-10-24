@@ -173,39 +173,34 @@
   };
 
   const populateExperience = () => {
-    const timelineTarget = qs('[data-timeline]');
-    if (!timelineTarget) {
-      return;
+    const { experience } = siteData;
+    const educationTarget = qs('[data-site="education"]');
+    if (educationTarget) {
+      experience.education.forEach((item) => {
+        const card = document.createElement("article");
+        card.className = "info-card";
+        card.innerHTML = `
+          <h3>${item.title}</h3>
+          <p class="info-card__meta">${item.program} · <span>${item.period}</span></p>
+        `;
+        card.appendChild(formatList(item.details, "info-card__list"));
+        educationTarget.appendChild(card);
+      });
     }
 
-    const items = siteData.experience?.timeline ?? [];
-    items.forEach((item) => {
-      const entry = document.createElement("article");
-      entry.className = "timeline-item";
-      if (item.future) {
-        entry.classList.add("timeline-item--future");
-      }
-
-      const dot = document.createElement("span");
-      dot.className = "timeline-dot";
-      dot.setAttribute("aria-hidden", "true");
-      entry.appendChild(dot);
-
-      const card = document.createElement("div");
-      card.className = "timeline-card";
-      card.innerHTML = `
-        <h3>${item.title}</h3>
-        <p class="timeline-card__meta">${item.period}</p>
-        <p class="timeline-card__body">${item.body}</p>
-      `;
-
-      if (Array.isArray(item.bullets) && item.bullets.length) {
-        card.appendChild(formatList(item.bullets, "timeline-card__list"));
-      }
-
-      entry.appendChild(card);
-      timelineTarget.appendChild(entry);
-    });
+    const rolesTarget = qs('[data-site="experience"]');
+    if (rolesTarget) {
+      experience.roles.forEach((item) => {
+        const card = document.createElement("article");
+        card.className = "info-card";
+        card.innerHTML = `
+          <h3>${item.title}</h3>
+          <p class="info-card__meta">${item.role} · <span>${item.period}</span></p>
+        `;
+        card.appendChild(formatList(item.details, "info-card__list"));
+        rolesTarget.appendChild(card);
+      });
+    }
   };
 
   const populateProjects = () => {
@@ -317,13 +312,10 @@
   };
 
   const initScrollSpy = () => {
-    const navLinks = qsa('.nav-menu a[href^="#"]');
+    const navLinks = qsa('nav a[href^="#"]');
     if (!navLinks.length) {
       return;
     }
-
-    navLinks[0].classList.add("is-active");
-    navLinks[0].setAttribute("aria-current", "true");
 
     const sections = navLinks
       .map((link) => qs(link.getAttribute("href")))
@@ -332,21 +324,18 @@
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.intersectionRatio >= 0.15) {
+          if (entry.isIntersecting) {
             navLinks.forEach((link) => {
-              const isActive = link.getAttribute("href") === `#${entry.target.id}`;
-              link.classList.toggle("is-active", isActive);
-              if (isActive) {
-                link.setAttribute("aria-current", "true");
-              } else {
-                link.removeAttribute("aria-current");
-              }
+              link.parentElement?.classList.toggle(
+                "active",
+                link.getAttribute("href") === `#${entry.target.id}`
+              );
             });
           }
         });
       },
       {
-        threshold: [0.15, 0.6]
+        rootMargin: "-50% 0px -45% 0px"
       }
     );
 
@@ -382,65 +371,12 @@
           const section = qs(targetId);
           if (section) {
             event.preventDefault();
-            section.scrollIntoView({ behavior: "smooth", block: "start" });
+            section.scrollIntoView({ behavior: "smooth" });
             section.focus({ preventScroll: true });
           }
         }
       });
     });
-  };
-
-  // reveal-on-scroll animation
-  const initSectionReveal = () => {
-    const revealEls = qsa(".reveal");
-    if (!revealEls.length) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((entry) => {
-          if (entry.intersectionRatio >= 0.15) {
-            entry.target.classList.add("show");
-            obs.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.15
-      }
-    );
-
-    revealEls.forEach((el) => observer.observe(el));
-  };
-
-  // scroll progress indicator
-  const initScrollProgress = () => {
-    const bar = qs(".scroll-progress__bar");
-    if (!bar) {
-      return;
-    }
-
-    let ticking = false;
-
-    const update = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
-      const ratio = Math.min(Math.max(scrollTop / docHeight, 0), 1);
-      bar.style.transform = `scaleX(${ratio})`;
-      ticking = false;
-    };
-
-    const requestTick = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(update);
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", requestTick, { passive: true });
-    window.addEventListener("resize", requestTick);
-    update();
   };
 
   const init = () => {
@@ -455,8 +391,6 @@
     initScrollSpy();
     initMobileNav();
     enableSmoothScroll();
-    initSectionReveal();
-    initScrollProgress();
   };
 
   if (document.readyState !== "loading") {

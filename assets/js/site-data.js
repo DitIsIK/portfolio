@@ -26,8 +26,7 @@ const siteData = {
     }
   },
   bio: {
-    short:
-      "Ik ben Yannick, eerstejaars Communicatiestudent aan de HvA. Ik hou van strak en gestructureerd werken en dingen die écht af zijn. Overdag in de productie bij Sympafix; ’s avonds bouw ik simpele webapps die gewoon werken.",
+    short: "eerstejaars communicatie student aan de HvA. Houd van strak en gestructureerd werken en dingen die echt werkelijk goed afgemaakt zijn.",
     long: "(nog een placeholder)"
   },
   currentFocus: [
@@ -53,25 +52,26 @@ const siteData = {
     ]
   },
   experience: {
-    timeline: [
+    education: [
       {
-        title: "Sympafix — Productie & Simple Apps",
-        period: "2024 — heden",
-        body:
-          "Werk in de productie en bouw interne tools voor Sympafix. Focus op nette UI’s, snelle deploys en praktische oplossingen.",
-        bullets: [
-          "Spijkerwijzer: compatibiliteitstool",
-          "Volume Calculator: Excel-logica naar web"
-        ],
-        future: false
-      },
+        title: "Hogeschool van Amsterdam",
+        program: "Communicatie",
+        period: "2024 – heden",
+        details: [
+          "Propedeuse in zicht, focus op merkcommunicatie",
+          "Projectgroepen rondom campagnes en storytelling"
+        ]
+      }
+    ],
+    roles: [
       {
-        title: "Toekomstige rol",
-        period: "2025 — …",
-        body:
-          "Ruimte voor stage of part-time werk in communicatie, front-end of content.",
-        bullets: [],
-        future: true
+        title: "Stageplek",
+        role: "Front-end & content stagiair (in aanvraag)",
+        period: "2025",
+        details: [
+          "Open voor teams die digitale campagnes en productervaringen bouwen",
+          "Focus op front-end, UX writing en communicatieonderzoek"
+        ]
       }
     ]
   },

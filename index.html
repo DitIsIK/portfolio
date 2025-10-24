@@ -27,15 +27,15 @@
 <body>
   <a class="skip-link" href="#main">Direct naar de inhoud</a>
   <header id="header" class="header-tops">
-    <div class="nav-bar" role="navigation" aria-label="Hoofdnavigatie">
-      <div class="container nav-wrapper">
+    <div class="container">
+      <div class="nav-wrapper">
         <span class="brand" aria-hidden="true">YD</span>
         <button class="mobile-nav-toggle" type="button" aria-label="Toon navigatie" aria-expanded="false" aria-controls="site-nav">
           <span class="bx bx-menu" aria-hidden="true"></span>
         </button>
         <nav id="site-nav" class="nav-menu" aria-label="Hoofdnavigatie">
           <ul>
-            <li><a href="#about">Over</a></li>
+            <li class="active"><a href="#about">Over</a></li>
             <li><a href="#skills">Skills</a></li>
             <li><a href="#experience">Ervaring</a></li>
             <li><a href="#projects">Projecten</a></li>
@@ -43,36 +43,33 @@
           </ul>
         </nav>
       </div>
-      <div class="scroll-progress" aria-hidden="true">
-        <span class="scroll-progress__bar"></span>
-      </div>
-    </div>
-    <div class="container hero">
-      <div class="hero__content">
-        <h1 class="hero__title" data-site="name">Yannick Deetman</h1>
-        <p class="hero__typed" aria-live="polite">
-          <span class="sr-only" data-site="tagline"></span>
-          <span class="typing" aria-hidden="true"></span>
-        </p>
-        <p class="hero__summary" data-site="hero-summary"></p>
-        <div class="hero__meta">
-          <span><i class="bx bx-map" aria-hidden="true"></i><span data-site="location"></span></span>
-          <a class="hero__email" data-site="email" href="mailto:yannick.deetman@icloud.com"></a>
+      <div class="hero">
+        <div class="hero__content">
+          <h1 class="hero__title" data-site="name">Yannick Deetman</h1>
+          <p class="hero__typed" aria-live="polite">
+            <span class="sr-only" data-site="tagline"></span>
+            <span class="typing" aria-hidden="true"></span>
+          </p>
+          <p class="hero__summary" data-site="hero-summary"></p>
+          <div class="hero__meta">
+            <span><i class="bx bx-map" aria-hidden="true"></i><span data-site="location"></span></span>
+            <a class="hero__email" data-site="email" href="mailto:yannick.deetman@icloud.com"></a>
+          </div>
+          <div class="hero__actions">
+            <a class="button" data-cta="projects" href="#projects">Bekijk projecten</a>
+            <a class="button button--ghost" data-cta="cv" href="assets/cv/Yannick_Deetman_CV.pdf">CV downloaden</a>
+          </div>
+          <div class="hero__socials" data-site="socials"></div>
         </div>
-        <div class="hero__actions">
-          <a class="button" data-cta="projects" href="#projects">Bekijk projecten</a>
-          <a class="button button--ghost" data-cta="cv" href="assets/cv/Yannick_Deetman_CV.pdf">CV downloaden</a>
-        </div>
-        <div class="hero__socials" data-site="socials"></div>
+        <figure class="hero__media">
+          <img src="assets/img/profile.svg" alt="Illustratie van Yannick Deetman" width="280" height="280" loading="lazy">
+        </figure>
       </div>
-      <figure class="hero__media">
-        <img src="assets/img/profile.svg" alt="Illustratie van Yannick Deetman" width="280" height="280" loading="lazy">
-      </figure>
     </div>
   </header>
 
-  <main id="main" class="snap-container" tabindex="-1">
-    <section id="about" class="section reveal" tabindex="-1">
+  <main id="main" tabindex="-1">
+    <section id="about" class="section" tabindex="-1">
       <div class="container">
         <header class="section-header">
           <p class="section-kicker">Intro</p>
@@ -105,7 +102,7 @@
       </div>
     </section>
 
-    <section id="skills" class="section reveal" tabindex="-1">
+    <section id="skills" class="section" tabindex="-1">
       <div class="container">
         <header class="section-header">
           <p class="section-kicker">Toolkit</p>
@@ -113,30 +110,37 @@
         </header>
         <div class="skills-grid">
           <article class="skills-card">
-            <h3>Nu aan het verdiepen bij HvA Communicatie.</h3>
-            <p class="skills-subtitle">Momenteel aan het leren en verbeteren bij HvA Communicatie: schrijven, onderzoek, visuele communicatie en front-end basics.</p>
+            <h3>Primary</h3>
             <div data-site="skills-primary"></div>
           </article>
           <article class="skills-card">
-            <h3>Bouwt simpele webapps (Netlify-ready).</h3>
-            <p class="skills-subtitle">Kan eenvoudige webapplicaties bouwen (HTML/CSS/JS + basis React/Next.js) en shippen op Netlify.</p>
+            <h3>Secondary</h3>
             <div data-site="skills-secondary"></div>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="experience" class="section reveal" tabindex="-1">
+    <section id="experience" class="section" tabindex="-1">
       <div class="container">
         <header class="section-header">
           <p class="section-kicker">Groei</p>
-          <h2>Ervaring</h2>
+          <h2>Education &amp; Experience</h2>
         </header>
-        <div class="timeline" data-timeline></div>
+        <div class="experience-grid">
+          <div>
+            <h3 class="section-subheading">Opleiding</h3>
+            <div data-site="education" class="info-card-stack"></div>
+          </div>
+          <div>
+            <h3 class="section-subheading">Stage &amp; praktijk</h3>
+            <div data-site="experience" class="info-card-stack"></div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="projects" class="section reveal" tabindex="-1">
+    <section id="projects" class="section" tabindex="-1">
       <div class="container">
         <header class="section-header">
           <p class="section-kicker">Cases</p>
@@ -146,7 +150,7 @@
       </div>
     </section>
 
-    <section id="contact" class="section reveal" tabindex="-1">
+    <section id="contact" class="section" tabindex="-1">
       <div class="container">
         <header class="section-header">
           <p class="section-kicker">Hallo</p>
