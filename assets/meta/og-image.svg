@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Open Graph afbeelding voor Yannick Deetman</title>
+  <desc id="desc">Visitekaartje met naam, tagline en locaties voor Yannick Deetman.</desc>
+  <defs>
+    <linearGradient id="og-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="og-accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#12d640" />
+      <stop offset="100%" stop-color="#22d3ee" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" rx="42" fill="url(#og-bg)" />
+  <rect x="80" y="80" width="680" height="470" rx="36" fill="rgba(255,255,255,0.06)" />
+  <rect x="820" y="80" width="300" height="300" rx="32" fill="#0f172a" opacity="0.8" />
+  <circle cx="970" cy="230" r="120" fill="#12d640" opacity="0.28" />
+  <circle cx="970" cy="230" r="84" fill="#22d3ee" opacity="0.22" />
+  <text x="120" y="190" font-family="'Poppins', 'Arial', sans-serif" font-size="72" font-weight="600" fill="#f8fafc">Yannick Deetman</text>
+  <text x="120" y="260" font-family="'Poppins', 'Arial', sans-serif" font-size="32" fill="#cbd5f5">Communicatiestudent (HvA), vibecoding front end, fotografie</text>
+  <text x="120" y="320" font-family="'Poppins', 'Arial', sans-serif" font-size="24" fill="#8b9dcf">Amsterdam en Alkmaar, NL</text>
+  <rect x="120" y="360" width="320" height="64" rx="32" fill="url(#og-accent)" />
+  <text x="140" y="402" font-family="'Poppins', 'Arial', sans-serif" font-size="26" fill="#041020">Projecten &amp; communicatie</text>
+  <text x="120" y="470" font-family="'Poppins', 'Arial', sans-serif" font-size="20" fill="#94a3b8">GitHub DitIsIK · LinkedIn Yannick</text>
+</svg>
