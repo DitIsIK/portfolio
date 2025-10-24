@@ -632,7 +632,6 @@ button,
     order: -1;
     max-width: 220px;
   }
-}
 
 @media (max-width: 640px) {
   .header-tops {
