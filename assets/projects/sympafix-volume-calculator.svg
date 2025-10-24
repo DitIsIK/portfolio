@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Sympafix Volume Calculator mockup</title>
+  <desc id="desc">Minimalistische illustratie met panelen voor een volume calculator interface.</desc>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#e2e8f0" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#22d3ee" />
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" fill="#0f172a" rx="24" />
+  <rect x="40" y="40" width="880" height="460" rx="32" fill="url(#grad)" />
+  <rect x="80" y="96" width="360" height="64" rx="16" fill="#0f172a" opacity="0.1" />
+  <rect x="80" y="184" width="360" height="152" rx="20" fill="#ffffff" stroke="#0f172a" stroke-opacity="0.08" />
+  <rect x="80" y="360" width="360" height="88" rx="20" fill="#ffffff" stroke="#0f172a" stroke-opacity="0.08" />
+  <rect x="472" y="96" width="408" height="120" rx="24" fill="#0f172a" opacity="0.08" />
+  <rect x="472" y="240" width="408" height="176" rx="28" fill="#0f172a" opacity="0.08" />
+  <rect x="472" y="440" width="408" height="40" rx="12" fill="url(#accent)" />
+  <text x="100" y="135" font-family="'Poppins', 'Arial', sans-serif" font-size="28" fill="#0f172a" opacity="0.6">Producttype</text>
+  <text x="100" y="215" font-family="'Poppins', 'Arial', sans-serif" font-size="24" fill="#0f172a" opacity="0.45">Diameter</text>
+  <text x="492" y="170" font-family="'Poppins', 'Arial', sans-serif" font-size="36" fill="#0f172a" opacity="0.6">Volume berekend</text>
+  <text x="492" y="312" font-family="'Poppins', 'Arial', sans-serif" font-size="56" fill="#0f172a" opacity="0.8">18.4 ml</text>
+  <circle cx="520" cy="458" r="10" fill="#f8fafc" />
+  <circle cx="550" cy="458" r="10" fill="#f8fafc" opacity="0.7" />
+  <circle cx="580" cy="458" r="10" fill="#f8fafc" opacity="0.4" />
+</svg>
